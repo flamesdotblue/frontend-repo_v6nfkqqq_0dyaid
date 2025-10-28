@@ -1,28 +1,33 @@
-import { useState } from 'react'
+import React, { useRef } from 'react';
+import Hero from './components/Hero.jsx';
+import ReportIssue from './components/ReportIssue.jsx';
+import CivicChallenges from './components/CivicChallenges.jsx';
+import ImpactStats from './components/ImpactStats.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const reportRef = useRef(null);
+  const challengesRef = useRef(null);
+
+  const scrollTo = (ref) => {
+    if (ref?.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
+    <div className="min-h-screen bg-slate-50">
+      <Hero onReportClick={() => scrollTo(reportRef)} onPledgeClick={() => scrollTo(challengesRef)} />
+      <ImpactStats />
+      <ReportIssue ref={reportRef} />
+      <CivicChallenges ref={challengesRef} />
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-sm text-slate-600">Made with care for better neighborhoods.</p>
+          <div className="text-sm text-slate-500">CivicSense · Be the change you want to see</div>
         </div>
-      </div>
+      </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
